@@ -1,0 +1,23 @@
+div:not(#wrapper) {
+	border-style: solid;
+	border-radius: 10px;
+	border-width: 2px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+	padding: 5px;
+	float: left;
+}
+
+#wrapper {
+	display: grid;
+  	grid-template-columns: repeat(3, 1fr);
+}
+
+button {
+	background-color: #BBBBBB ;
+}
+
+p, h5 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
