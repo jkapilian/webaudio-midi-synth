@@ -3,174 +3,186 @@
 
 <head>
   <meta charset="utf‐8">
-  <title> Final Project Synth</title>
+  <title> WebAudio MIDI Synth</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <h1>WebAudio MIDI Synth</h1>
-    <h2>Click on the screen to begin!</h2>
-    <button id="record">Record</button>
-    <audio controls></audio>
-    <a href="blog.html">About</a>
-    <br>
-    <div id="wrapper">
-    <div id="top-div">
-      <p>Wave type</p>
-      <select name="waveform">
-        <option value="sine">Sine</option>
-        <option value="sawtooth">Sawtooth</option>
-        <option value="square">Square</option>
-        <option value="triangle">Triangle</option>
-      </select>
-      <button name="map">Map Up</button>
-      <button name="map">Map Down</button>
-      <p>Patch</p>
-      <select name="patch">
-        <option value="custom">Custom</option>
-        <option value="trumpet">Trumpet</option>
-        <option value="flute">Flute</option>
-        <option value="strings">Strings</option>
-        <option value="clav">Clavinet</option>
-        <option value="organ">Basic Organ</option>
-        <option value="piano">E. Piano</option>
-      </select>
-      <button name="map">Map Up</button>
-      <button name="map">Map Down</button>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">WebAudio MIDI Synth</a>
+      <button id="record" class="btn btn-danger">Record</button>
+    </div>
+  </nav>
+  
+  <audio controls></audio>
+  <br>
+  <div class="container">
+    <div class="row">
+      <div id="top-div" class="col-md-4 outline">
+        <p>Wave type</p>
+        <select name="waveform">
+          <option value="sine">Sine</option>
+          <option value="sawtooth">Sawtooth</option>
+          <option value="square">Square</option>
+          <option value="triangle">Triangle</option>
+        </select>
+        <button name="map" class="btn btn-secondary">Map Up</button>
+        <button name="map" class="btn btn-secondary">Map Down</button>
+        <p>Patch</p>
+        <select name="patch">
+          <option value="custom">Custom</option>
+          <option value="trumpet">Trumpet</option>
+          <option value="flute">Flute</option>
+          <option value="strings">Strings</option>
+          <option value="clav">Clavinet</option>
+          <option value="organ">Basic Organ</option>
+          <option value="piano">E. Piano</option>
+        </select>
+        <button name="map" class="btn btn-secondary">Map Up</button>
+        <button name="map" class="btn btn-secondary">Map Down</button>
+      </div>
+
+      <div id="lfo-div" class="col-md-4 outline">
+        <h5>LFO<input type="checkbox" id="lfo"><button name="map" class="btn btn-secondary">Map</button></h5>
+        <input type="range" min="0" max="15" value="5" class="slider" id="lfo-freq">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="lfo-label">5Hz</p> 
+      </div>
+
+      <div id="additive-div" class="col-md-4 outline">
+        <h5>Additive<input type="checkbox" id="additive"><button name="map" class="btn btn-secondary">Map</button></h5>
+        <p>Number of partials</p>
+        <input type="range" min="1" max="10" value="1" class="slider" id="partials">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="partials-label">1</p>
+      </div>
     </div>
 
-    <div id="lfo-div">
-      <h5>LFO<input type="checkbox" id="lfo"><button name="map">Map</button></h5>
-      <input type="range" min="0" max="15" value="5" class="slider" id="lfo-freq">
-      <button name="map">Map</button>
-      <p id="lfo-label">5Hz</p> 
+    <div class="row">
+
+      <div id="am-div" class="col-md-4 outline">
+        <h5>AM<input type="checkbox" id="am"><button name="map" class="btn btn-secondary">Map</button></h5>
+        <p>Modulator Frequency</p>
+        <input type="range" min="0" max="1000" value="440" class="slider" id="am-modulator">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="am-modulator-label">440 Hz</p>
+
+        <p>Depth</p>
+        <input type="range" min="0" max="500" value="500" class="slider" id="am-depth">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="am-depth-label">0.500</p>
+      </div>
+
+      <div id="fm-div" class="col-md-4 outline">
+        <h5>FM<input type="checkbox" id="fm"><button name="map" class="btn btn-secondary">Map</button></h5>
+        <p>Modulator Frequency</p>
+        <input type="range" min="0" max="1000" value="440" class="slider" id="fm-modulator">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="fm-modulator-label">440 Hz</p>
+
+        <p>Depth</p>
+        <input type="range" min="0" max="1000" value="10" class="slider" id="fm-depth">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="fm-depth-label">10 Hz</p>
+      </div>
+
+      <div id="tuning-div" class="col-md-4 outline">
+        <h5>Tuning</h5>
+        <input type="range" min="415" max="466" value="440" class="slider" id="tuning">
+        <p id="frequency">440 Hz</p>
+      </div>
     </div>
 
-    <div id="additive-div">
-      <h5>Additive<input type="checkbox" id="additive"><button name="map">Map</button></h5>
-      <p>Number of partials</p>
-      <input type="range" min="1" max="10" value="1" class="slider" id="partials">
-      <button name="map">Map</button>
-      <p id="partials-label">1</p>
+    <div class="row">
+
+      <div id="asdr-div" class="col-md-4 outline">
+        <h5>ADSR Paramters</h5>
+        <p>Attack</p>
+        <input type="range" min="0" max="100" value="10" class="slider" id="attack">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="attack-label">10 ms</p>
+
+        <p>Decay</p>
+        <input type="range" min="0" max="10000" value="10" class="slider" id="decay">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="decay-label">10 ms</p>
+
+        <p>Sustain</p>
+        <input type="range" min="0" max="100" value="80" class="slider" id="sustain">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="sustain-label">0.80</p>
+
+        <p>Release</p>
+        <input type="range" min="0" max="100" value="10" class="slider" id="release">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="release-label">10 ms</p>
+      </div>
+      <div id="filter-1" class="col-md-4 outline">
+        <h5>Filter 1</h5>
+        <select id="filter-1-type">
+          <option value="lowpass">LowPass</option>
+          <option value="highpass">HighPass</option>
+          <option value="bandpass">BandPass</option>
+          <option value="lowshelf">LowShelf</option>
+          <option value="highshelf">HighShelf</option>
+          <option value="peaking">Peaking</option>
+          <option value="notch">Notch</option>
+          <option value="allpass">AllPass</option>
+        </select>
+        <button name="map" class="btn btn-secondary">Map Up</button>
+        <button name="map" class="btn btn-secondary">Map Down</button>
+        <p>Frequency</p>
+        <input type="range" min="1" max="10000" value="10000" class="slider" id="filter-1-freq">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="filter-1-freq-label">10000 Hz</p>
+        <p>Velocity effects on cutoff frequency</p>
+        <input type="range" min="-10" max="10" value="0" class="slider" id="filter-1-vel">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="filter-1-vel-label">0</p>
+        <p>Gain</p>
+        <input type="range" min="-40" max="40" value="0" class="slider" id="filter-1-gain">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="filter-1-gain-label">0</p>
+        <p>Q</p>
+        <input type="range" min="1" max="1000" value="1" class="slider" id="filter-1-q">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="filter-1-q-label">1</p>
+      </div>
+      <div id="filter-2" class="col-md-4 outline">
+        <h5>Filter 2</h5>
+        <select id="filter-2-type">
+          <option value="lowpass">LowPass</option>
+          <option value="highpass">HighPass</option>
+          <option value="bandpass">BandPass</option>
+          <option value="lowshelf">LowShelf</option>
+          <option value="highshelf">HighShelf</option>
+          <option value="peaking">Peaking</option>
+          <option value="notch">Notch</option>
+          <option value="allpass">AllPass</option>
+        </select>
+        <button name="map" class="btn btn-secondary">Map Up</button>
+        <button name="map" class="btn btn-secondary">Map Down</button>
+        <p>Frequency</p>
+        <input type="range" min="1" max="10000" value="10000" class="slider" id="filter-2-freq">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="filter-2-freq-label">10000 Hz</p>
+        <p>Velocity effects on cutoff frequency</p>
+        <input type="range" min="-10" max="10" value="0" class="slider" id="filter-2-vel">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="filter-2-vel-label">0</p>
+        <p>Gain</p>
+        <input type="range" min="-40" max="40" value="0" class="slider" id="filter-2-gain">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="filter-2-gain-label">0</p>
+        <p>Q</p>
+        <input type="range" min="1" max="1000" value="1" class="slider" id="filter-2-q">
+        <button name="map" class="btn btn-secondary">Map</button>
+        <p id="filter-2-q-label">1</p>
+      </div>
     </div>
-
-    <div id="am-div">
-      <h5>AM<input type="checkbox" id="am"><button name="map">Map</button></h5>
-      <p>Modulator Frequency</p>
-      <input type="range" min="0" max="1000" value="440" class="slider" id="am-modulator">
-      <button name="map">Map</button>
-      <p id="am-modulator-label">440 Hz</p>
-
-      <p>Depth</p>
-      <input type="range" min="0" max="500" value="500" class="slider" id="am-depth">
-      <button name="map">Map</button>
-      <p id="am-depth-label">0.500</p>
-    </div>
-
-    <div id="fm-div">
-      <h5>FM<input type="checkbox" id="fm"><button name="map">Map</button></h5>
-      <p>Modulator Frequency</p>
-      <input type="range" min="0" max="1000" value="440" class="slider" id="fm-modulator">
-      <button name="map">Map</button>
-      <p id="fm-modulator-label">440 Hz</p>
-
-      <p>Depth</p>
-      <input type="range" min="0" max="1000" value="10" class="slider" id="fm-depth">
-      <button name="map">Map</button>
-      <p id="fm-depth-label">10 Hz</p>
-    </div>
-
-    <div id="tuning-div">
-      <h5>Tuning</h5>
-      <input type="range" min="415" max="466" value="440" class="slider" id="tuning">
-      <p id="frequency">440 Hz</p>
-    </div>
-
-    <div id="asdr-div">
-      <h5>ADSR Paramters</h5>
-      <p>Attack</p>
-      <input type="range" min="0" max="100" value="10" class="slider" id="attack">
-      <button name="map">Map</button>
-      <p id="attack-label">10 ms</p>
-
-      <p>Decay</p>
-      <input type="range" min="0" max="10000" value="10" class="slider" id="decay">
-      <button name="map">Map</button>
-      <p id="decay-label">10 ms</p>
-
-      <p>Sustain</p>
-      <input type="range" min="0" max="100" value="80" class="slider" id="sustain">
-      <button name="map">Map</button>
-      <p id="sustain-label">0.80</p>
-
-      <p>Release</p>
-      <input type="range" min="0" max="100" value="10" class="slider" id="release">
-      <button name="map">Map</button>
-      <p id="release-label">10 ms</p>
-    </div>
-    <div id="filter-1">
-      <h5>Filter 1</h5>
-      <select id="filter-1-type">
-        <option value="lowpass">LowPass</option>
-        <option value="highpass">HighPass</option>
-        <option value="bandpass">BandPass</option>
-        <option value="lowshelf">LowShelf</option>
-        <option value="highshelf">HighShelf</option>
-        <option value="peaking">Peaking</option>
-        <option value="notch">Notch</option>
-        <option value="allpass">AllPass</option>
-      </select>
-      <button name="map">Map Up</button>
-      <button name="map">Map Down</button>
-      <p>Frequency</p>
-      <input type="range" min="1" max="10000" value="10000" class="slider" id="filter-1-freq">
-      <button name="map">Map</button>
-      <p id="filter-1-freq-label">10000 Hz</p>
-      <p>Velocity effects on cutoff frequency</p>
-      <input type="range" min="-10" max="10" value="0" class="slider" id="filter-1-vel">
-      <button name="map">Map</button>
-      <p id="filter-1-vel-label">0</p>
-      <p>Gain</p>
-      <input type="range" min="-40" max="40" value="0" class="slider" id="filter-1-gain">
-      <button name="map">Map</button>
-      <p id="filter-1-gain-label">0</p>
-      <p>Q</p>
-      <input type="range" min="1" max="1000" value="1" class="slider" id="filter-1-q">
-      <button name="map">Map</button>
-      <p id="filter-1-q-label">1</p>
-    </div>
-    <div id="filter-2">
-      <h5>Filter 2</h5>
-      <select id="filter-2-type">
-        <option value="lowpass">LowPass</option>
-        <option value="highpass">HighPass</option>
-        <option value="bandpass">BandPass</option>
-        <option value="lowshelf">LowShelf</option>
-        <option value="highshelf">HighShelf</option>
-        <option value="peaking">Peaking</option>
-        <option value="notch">Notch</option>
-        <option value="allpass">AllPass</option>
-      </select>
-      <button name="map">Map Up</button>
-      <button name="map">Map Down</button>
-      <p>Frequency</p>
-      <input type="range" min="1" max="10000" value="10000" class="slider" id="filter-2-freq">
-      <button name="map">Map</button>
-      <p id="filter-2-freq-label">10000 Hz</p>
-      <p>Velocity effects on cutoff frequency</p>
-      <input type="range" min="-10" max="10" value="0" class="slider" id="filter-2-vel">
-      <button name="map">Map</button>
-      <p id="filter-2-vel-label">0</p>
-      <p>Gain</p>
-      <input type="range" min="-40" max="40" value="0" class="slider" id="filter-2-gain">
-      <button name="map">Map</button>
-      <p id="filter-2-gain-label">0</p>
-      <p>Q</p>
-      <input type="range" min="1" max="1000" value="1" class="slider" id="filter-2-q">
-      <button name="map">Map</button>
-      <p id="filter-2-q-label">1</p>
-    </div>
-    </div>
+  </div>
 </body>
 
 <script src="main.js"></script>

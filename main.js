@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     console.log("i " + i + " number " + e.controller.number);
                     midiMaps[i] = e.controller.number;
                     midiActiveMap[i] = false;
-                    maps[i].style.backgroundColor = "#BBBBBB";
+                    maps[index].classList.remove("mapping")
                 }
             }
             
@@ -417,7 +417,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     maps.forEach((item, index) => item.onclick = () => {
         midiActiveMap[index] = !midiActiveMap[index];
-        maps[index].style.backgroundColor =  midiActiveMap[index] ? "#008CBA" : "#BBBBBB";
+        if (midiActiveMap[index]) {
+            maps[index].classList.add("mapping")
+        }
+        else {
+            maps[index].classList.remove("mapping")
+        }
     });
 
     patch.onchange = e => setPatch(patches[e.target.value]);
