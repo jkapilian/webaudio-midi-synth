@@ -393,13 +393,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             mediaRecorder.start();
             recordButton.innerHTML = "Stop";
             recording = true;
-            recordButton.style.backgroundColor = "#CC0000";
         }
         else {
             mediaRecorder.stop();
             recordButton.innerHTML = "Record";
             recording = false;
-            recordButton.style.backgroundColor = "#BBBBBB";
         }
     }
 
@@ -412,7 +410,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // Make blob out of our blobs, and open it.
         var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
         chunks = [];
-        document.querySelector("audio").src = window.URL.createObjectURL(blob);
+        window.open(window.URL.createObjectURL(blob), '_blank')
       };
 
     maps.forEach((item, index) => item.onclick = () => {
