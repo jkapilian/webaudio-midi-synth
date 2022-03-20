@@ -4,6 +4,14 @@
 	border-width: 2px;
 }
 
+button {
+	margin: 0px 5px 5px 5px;
+}
+
+.nav-button {
+	margin-bottom: 0px;
+}
+
 
 p, h5 {
 	margin-top: 5px;
