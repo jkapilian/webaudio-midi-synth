@@ -614,6 +614,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     })
                     if (!err) {
                         patches = newPatches;
+                        let patchSelect = document.getElementById("patch-select");
+                        for (i = patchSelect.options.length; i >= 1; i--) {
+                            patchSelect.remove(i);
+                        }
+                        for (i = 0; i < Object.keys(patches).length; i++) {
+                            let newOption = document.createElement("option");
+                            newOption.value = Object.keys(patches)[i];
+                            newOption.innerHTML = Object.keys(patches)[i];
+                            patchSelect.appendChild(newOption);
+                        }
+                        patchSelect.selectedIndex = 0;
                     }
                     else {
                         $("#modal").modal();
