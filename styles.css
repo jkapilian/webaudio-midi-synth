@@ -13,3 +13,11 @@ p, h5 {
 .mapping {
 	background-color: #008CBA !important;
 }
+
+#patch-name {
+	width: 100%;
+}
+
+.warning {
+	color: red;
+}

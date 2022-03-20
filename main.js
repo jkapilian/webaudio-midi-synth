@@ -388,6 +388,137 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     let sustain = false;
 
+    let importMapping = document.getElementById("import-mapping");
+    let downloadMapping = document.getElementById("download-mapping");
+
+    importMapping.onclick = function() {
+        let element = document.createElement("input");
+        element.setAttribute("type", "file");
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        element.addEventListener("change", function() {
+            let read = new FileReader();
+            read.readAsText(element.files[0]);
+            read.onloadend = function(){
+                try {
+                    let newMidiMaps = JSON.parse(read.result);
+                    let err = false;
+                    newMidiMaps.forEach((_, value) => {
+                        if (!Number.isInteger(value)) {
+                            err = true;
+                        }
+                    })
+                    if (newMidiMaps.length == 30 && !err) {
+                        midiMaps = newMidiMaps;
+                    }
+                    else {
+                        $("#modal").modal();
+                    }
+                }
+                catch(error) {
+                    $("#modal").modal();
+                }
+            }
+        });
+        document.body.removeChild(element);
+    }
+
+    downloadMapping.onclick = function() {
+        let element = document.createElement("a");
+        element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(midiMaps)));
+        element.setAttribute("download", "mapping.txt");
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    let addPatch = document.getElementById("add-patch");
+    let patchText = document.getElementById("patch-name");
+    let submitPatch = document.getElementById("submit-patch");
+
+
+    addPatch.onclick = function() {
+        $("#add-modal").modal();
+    }
+
+    submitPatch.onclick = function() {
+        submitNewPatch();
+    }
+
+    patchText.onkeydown = function(e) {
+        if (e.key == "Enter" || e.code == "Enter") {
+            submitNewPatch();
+        }
+    }
+
+    function submitNewPatch() {
+        let warnings = document.querySelectorAll(".warning");
+        warnings.forEach(element => {
+            element.remove();
+        });
+        let val = patchText.value.trim();
+        if (val.length == 0) {
+            let warning = document.createElement("div");
+            let text = document.createTextNode("You must give your patch a name.");
+            warning.appendChild(text);
+            warning.classList.add("warning");
+            let divToAddTo = document.getElementById("patch-name-div");
+            divToAddTo.appendChild(warning);
+            patchText.value = "";
+            patchText.focus();
+        }
+        else if (Object.keys(patches).includes(val)) {
+            let warning = document.createElement("div");
+            let text = document.createTextNode("You cannot use an existing patch name.");
+            warning.appendChild(text);
+            warning.classList.add("warning");
+            let divToAddTo = document.getElementById("patch-name-div");
+            divToAddTo.appendChild(warning);
+            patchText.value = "";
+            patchText.focus();
+        }
+        else {
+            let newPatch = {
+                "wave": wavePicker.selectedIndex,
+                "lfo": lfo_select.checked,
+                "lfofreq": Number(lfoFreq.value),
+                "additive": additive.checked,
+                "partials": Number(partials.value),
+                "am": am.checked,
+                "amfreq": Number(amModulator.value),
+                "amdepth": Number(amDepth.value),
+                "fm": fm.checked,
+                "fmfreq": Number(fmModulator.value),
+                "fmdepth": Number(fmDepth.value),
+                "attack": Number(attack.value),
+                "decay": Number(decay.value),
+                "sustain": Number(sustainEnv.value),
+                "release": Number(release.value),
+                "filtertype1": filterType1.value,
+                "filterfreq1": Number(filterFreq1.value),
+                "filtervel1": Number(filterVel1.value),
+                "filtergain1": Number(filterGain1.value),
+                "filterq1": Number(filterQ1.value),
+                "filtertype2": filterType2.value,
+                "filterfreq2": Number(filterFreq2.value),
+                "filtervel2": Number(filterVel2.value),
+                "filtergain2": Number(filterGain2.value),
+                "filterq2": Number(filterQ2.value),
+            };
+            patches[val] = newPatch;
+            let patchSelect = document.getElementById("patch-select");
+            let newOption = document.createElement("option");
+            newOption.value = val;
+            newOption.innerHTML = val;
+            patchSelect.appendChild(newOption);
+            patchSelect.selectedIndex = patchSelect.length - 1;
+            $('#add-modal').modal('hide');
+        }
+    }
+    
+
     recordButton.onclick = function() {
         if (!recording) {
             mediaRecorder.start();
@@ -580,8 +711,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     filterGain2.oninput = e => setFilter2(e.target.value, "gain");
     filterQ2.oninput = e => setFilter2(e.target.value, "Q");
 
-    const patches = {
-        "trumpet": {
+    let patches = {
+        "Trumpet": {
             "wave": 1,
             "lfo": false,
             "lfofreq": 5,
@@ -608,7 +739,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             "filtergain2": 0,
             "filterq2": 1,
         },
-        "flute": {
+        "Flute": {
             "wave": 1,
             "lfo": false,
             "lfofreq": 5,
@@ -635,7 +766,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             "filtergain2": 0,
             "filterq2": 1,
         },
-        "strings": {
+        "Strings": {
             "wave": 1,
             "lfo": false,
             "lfofreq": 5,
@@ -662,7 +793,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             "filtergain2": 0,
             "filterq2": 15,
         },
-        "clav": {
+        "Clavinet": {
             "wave": 2,
             "lfo": false,
             "lfofreq": 5,
@@ -689,7 +820,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             "filtergain2": 0,
             "filterq2": 1,
         },
-        "organ": {
+        "Basic Organ": {
             "wave": 0,
             "lfo": true,
             "lfofreq": 6,
@@ -716,7 +847,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             "filtergain2": 0,
             "filterq2": 1,
         },
-        "piano": {
+        "E. Piano": {
             "wave": 0,
             "lfo": false,
             "lfofreq": 5,
