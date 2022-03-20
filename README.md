@@ -1,5 +1,8 @@
 # WebAudio MIDI Synth
 
+## Live Demo
+Click [here](https://jkapilian.github.io/webaudio-midi-synth/) for a live demo or clone this repo to run it locally.
+
 ## MIDI Info
 This synth accepts MIDI input and maps notes to their corresponding frequencies using the WebMidi API along with WebAudio. MIDI velocity (how hard a key is pressed) informs the gain of a note being produced, while sustain behavior simulated using the "holdpedal" MIDI message. 
 
