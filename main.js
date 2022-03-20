@@ -517,6 +517,125 @@ document.addEventListener("DOMContentLoaded", function(event) {
             $('#add-modal').modal('hide');
         }
     }
+
+    let importPatches = document.getElementById("import-patches");
+    let downloadPatches = document.getElementById("download-patches");
+
+    importPatches.onclick = function() {
+        let element = document.createElement("input");
+        element.setAttribute("type", "file");
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        element.addEventListener("change", function() {
+            let read = new FileReader();
+            read.readAsText(element.files[0]);
+            read.onloadend = function(){
+                try {
+                    let newPatches = JSON.parse(read.result);
+                    let err = false;
+                    Object.keys(newPatches).forEach((key) => {
+                        value = newPatches[key];
+                        if (!Number.isInteger(value.wave)) {
+                            err = true;
+                        }
+                        if (!(value.lfo === true || value.lfo === false)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.lfofreq)) {
+                            err = true;
+                        }
+                        if (!(value.additive === true || value.additive === false)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.partials)) {
+                            err = true;
+                        }
+                        if (!(value.am === true || value.am === false)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.amfreq)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.amdepth)) {
+                            err = true;
+                        }
+                        if (!(value.fm === true || value.fm === false)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.fmfreq)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.fmdepth)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.attack)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.decay)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.sustain)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.release)) {
+                            err = true;
+                        }
+                        if (!value.filtertype1) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.filterfreq1)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.filtervel1)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.filtergain1)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.filterq1)) {
+                            err = true;
+                        }
+                        if (!value.filtertype2) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.filterfreq2)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.filtervel2)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.filtergain2)) {
+                            err = true;
+                        }
+                        if (!Number.isInteger(value.filterq2)) {
+                            err = true;
+                        }
+                    })
+                    if (!err) {
+                        patches = newPatches;
+                    }
+                    else {
+                        $("#modal").modal();
+                    }
+                }
+                catch(error) {
+                    $("#modal").modal();
+                }
+            }
+        });
+        document.body.removeChild(element);
+    }
+
+    downloadPatches.onclick = function() {
+        let element = document.createElement("a");
+        element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(patches)));
+        element.setAttribute("download", "patches.txt");
+        element.style.display = "none";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
     
 
     recordButton.onclick = function() {
